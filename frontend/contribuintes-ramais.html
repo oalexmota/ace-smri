@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Colaboradores / Ramais</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" type="image/png" href="img/logo-prefeitura.png"/>
+  <script src="/js/auth.js"></script>
+  <style>
+    /* back-to-top */
+    .ace-btt{position:fixed;bottom:22px;right:22px;width:40px;height:40px;border-radius:50%;background:#1f2937;color:#fff;border:none;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.18);opacity:0;pointer-events:none;transition:opacity .22s,transform .22s;z-index:900;transform:translateY(8px)}
+    .ace-btt.visible{opacity:1;pointer-events:auto;transform:translateY(0)}
+    .ace-btt:hover{background:#374151}
+    /* ── Contact cards ── */
+    .card-grid{display:flex;flex-direction:column;gap:.55rem}
+    .contact-card{background:#fff;border-radius:12px;border:1.5px solid #f3f4f6;padding:.85rem 1rem;box-shadow:0 1px 4px rgba(0,0,0,.05);transition:box-shadow .12s}
+    .contact-card:hover{box-shadow:0 3px 12px rgba(0,0,0,.09);border-color:#e5e7eb}
+    .cc-name{font-size:.95rem;font-weight:700;color:#1f2937;margin:0 0 3px}
+    .cc-cargo{font-size:.78rem;color:#6366f1;font-weight:600;margin:0 0 4px}
+    .cc-meta{display:flex;flex-wrap:wrap;gap:.4rem .9rem;font-size:.75rem;color:#6b7280;margin-bottom:.6rem}
+    .cc-meta span{display:flex;align-items:center;gap:3px}
+    .ramal-tag{background:#f3f4f6;color:#1f2937;padding:1px 8px;border-radius:12px;font-weight:700;font-size:.8rem}
+    .cc-actions{display:flex;gap:.35rem}
+    /* ── Right sidebar ── */
+    .sidebar-card{background:#fff;border-radius:14px;border:1px solid #f3f4f6;box-shadow:0 2px 8px rgba(0,0,0,.06);overflow:hidden;margin-bottom:1rem}
+    .sidebar-head{background:#f9fafb;color:#374151;padding:.6rem 1rem;font-size:.73rem;font-weight:700;text-transform:uppercase;letter-spacing:.07em;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #f3f4f6}
+    .ramal-row{display:flex;align-items:center;justify-content:space-between;padding:.55rem 1rem;border-bottom:1px solid #f9fafb;font-size:.83rem}
+    .ramal-row:last-child{border-bottom:none}
+    .ramal-name{color:#374151;font-weight:600}
+    .ramal-num{background:#f3f4f6;color:#1f2937;padding:2px 10px;border-radius:12px;font-weight:700;font-size:.8rem}
+    /* ── Birthdays ── */
+    .bday-item{display:flex;align-items:center;gap:.55rem;padding:.5rem 1rem;border-bottom:1px solid #f9fafb;font-size:.82rem}
+    .bday-item:last-child{border-bottom:none}
+    .bday-avatar{width:30px;height:30px;border-radius:50%;background:#fef3c7;display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
+    .bday-info{flex:1;min-width:0}
+    .bday-name{font-weight:600;color:#1f2937;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .bday-date{font-size:.7rem;color:#9ca3af}
+    .bday-today{background:#fef9c3!important;border-left:3px solid #fbbf24}
+    .empty-bday{text-align:center;padding:1rem;color:#d1d5db;font-size:.8rem;font-style:italic}
+    /* Month nav */
+    .mnav-btn{background:transparent;border:none;color:#6b7280;cursor:pointer;font-size:.9rem;padding:0 4px;line-height:1;opacity:.8}
+    .mnav-btn:hover{opacity:1}
+    /* ── Modal ── */
+    .modal-bd{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1040;align-items:center;justify-content:center}
+    .modal-bd.open{display:flex}
+    .modal-box{background:#fff;border-radius:16px;padding:1.75rem;width:100%;max-width:500px;box-shadow:0 12px 40px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto}
+    .modal-ttl{font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 1.1rem}
+    .flabel{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.22rem;display:block}
+    .finput{width:100%;padding:.42rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.84rem;outline:none;transition:border .14s}
+    .finput:focus{border-color:#6b7280}
+    .mf-row{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.1rem}
+    .mbtn-c{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:.42rem 1rem;font-size:.82rem;font-weight:600;cursor:pointer;color:#374151}
+    .mbtn-c:hover{background:#f3f4f6}
+    .mbtn-s{background:#16a34a;border:none;border-radius:8px;padding:.42rem 1.25rem;font-size:.82rem;font-weight:600;cursor:pointer;color:#fff}
+    .mbtn-s:hover{background:#15803d}
+    .confirm-box{background:#fff;border-radius:14px;padding:1.5rem;width:100%;max-width:340px;box-shadow:0 10px 32px rgba(0,0,0,.18);text-align:center}
+    .confirm-box h3{font-size:.98rem;font-weight:700;margin-bottom:.5rem;color:#1f2937}
+    .confirm-box p{font-size:.84rem;color:#6b7280;margin-bottom:1.1rem}
+    /* ── Loading ── */
+    .loading-state{text-align:center;padding:2.5rem;color:#9ca3af;font-size:.88rem}
+    /* ── Toast ── */
+    .ace-toast{position:fixed;bottom:20px;right:20px;background:#1f2937;color:#fff;padding:8px 16px;border-radius:10px;font-size:.83rem;font-weight:500;z-index:9999;opacity:0;transform:translateY(7px);transition:all .22s;pointer-events:none}
+    .ace-toast.show{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+<div class="container py-4">
+
+  <div class="mb-4 no-print">
+    <h1 class="titulo-pagina mb-1">Colaboradores / Ramais</h1>
+    <p class="text-muted mb-0">Lista de ramais internos</p>
+  </div>
+
+  <!-- Filter bar -->
+  <div class="card shadow-sm border-0 mb-4 no-print">
+    <div class="card-body py-3">
+      <div class="row g-3 align-items-end">
+        <div class="col-md-5">
+          <label class="form-label small fw-semibold text-uppercase text-secondary mb-1">Buscar</label>
+          <input id="qInput" type="text" class="form-control form-control-sm" placeholder="Busque por nome, cargo ou ramal…" oninput="doFilter()"/>
+        </div>
+        <div class="col-md-4">
+          <label class="form-label small fw-semibold text-uppercase text-secondary mb-1">Setor</label>
+          <select id="setorSel" class="form-select form-select-sm" onchange="doFilter()">
+            <option value="">Todos</option>
+          </select>
+        </div>
+        <div class="col-md-3 d-flex gap-2">
+          <button class="btn btn-danger btn-sm w-100" onclick="doFilter()">Buscar</button>
+          <button class="btn btn-outline-secondary btn-sm" onclick="clearFilter()">Limpar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- MAIN LIST -->
+    <div class="col-lg-8 order-2 order-lg-1">
+      <div class="card shadow-sm border-0">
+        <div class="card-header bg-white d-flex align-items-center justify-content-between py-2 px-3">
+          <div class="d-flex align-items-center gap-2">
+            <span class="fw-bold">Colaboradores</span>
+            <span class="badge bg-dark" id="countPill">0</span>
+          </div>
+          <div class="d-flex gap-2 no-print">
+            <button class="btn btn-sm btn-success" onclick="printAll()">Imprimir tudo</button>
+            <button class="btn btn-sm btn-outline-primary rh-ti-only" onclick="openModal()" style="display:none">＋ Adicionar</button>
+          </div>
+        </div>
+        <div class="card-body p-2">
+          <div class="card-grid" id="cardGrid">
+            <div class="loading-state">Carregando colaboradores…</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SIDEBAR -->
+    <div class="col-lg-4 order-1 order-lg-2">
+      <!-- Ramais especiais -->
+      <div class="sidebar-card">
+        <div class="sidebar-head">Ramais — Espaços</div>
+        <div class="ramal-row"><span class="ramal-name">Sala do Fundo</span><span class="ramal-num">8203</span></div>
+        <div class="ramal-row"><span class="ramal-name">Copa</span><span class="ramal-num">8555</span></div>
+        <div class="ramal-row"><span class="ramal-name">Ar Condicionado</span><span class="ramal-num">9811</span></div>
+        <div class="ramal-row"><span class="ramal-name">Recepção</span><span class="ramal-num">8593</span></div>
+      </div>
+
+      <!-- Aniversários -->
+      <div class="sidebar-card">
+        <div class="sidebar-head">
+          <span id="bdayHead">🎂 Aniversários</span>
+          <span style="display:flex;align-items:center;gap:2px">
+            <button class="mnav-btn" onclick="changeMonth(-1)" title="Mês anterior">‹</button>
+            <span id="bdayMonthLbl" style="font-size:.73rem;min-width:30px;text-align:center"></span>
+            <button class="mnav-btn" onclick="changeMonth(1)" title="Próximo mês">›</button>
+          </span>
+        </div>
+        <div id="bdayList"></div>
+      </div>
+    </div>
+  </div>
+
+  <footer class="home-footer mt-4 no-print">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <div><strong>ACE</strong> — Aplicação de Controle Exclusivo &nbsp;·&nbsp; SMRI</div>
+        <div class="home-footer-texto">
+          © <strong>2026</strong> Todos os direitos reservados.
+        </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-bd" id="modalBd">
+  <div class="modal-box">
+    <p class="modal-ttl" id="modalTtl">Adicionar Colaborador</p>
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="flabel">Nome completo</label>
+        <input type="text" id="fNome" class="finput" placeholder="Ex: João da Silva"/>
+      </div>
+      <div class="col-6">
+        <label class="flabel">Ramal</label>
+        <input type="text" id="fRamal" class="finput" placeholder="Ex: 8527"/>
+      </div>
+      <div class="col-6">
+        <label class="flabel">Aniversário</label>
+        <input type="text" id="fNiver" class="finput" placeholder="Ex: 19/nov"/>
+      </div>
+      <div class="col-12">
+        <label class="flabel">Setor / Cargo</label>
+        <input type="text" id="fCargo" class="finput" placeholder="Ex: Assessoria de Comunicação"/>
+      </div>
+      <div class="col-12">
+        <label class="flabel">E-mail (usuário)</label>
+        <div class="d-flex align-items-center gap-2">
+          <input type="text" id="fEmail" class="finput" placeholder="Ex: joaosilva" style="flex:1"/>
+          <span style="font-size:.78rem;color:#9ca3af;white-space:nowrap">@prefeitura.sp.gov.br</span>
+        </div>
+      </div>
+    </div>
+    <div class="mf-row">
+      <button class="mbtn-c" onclick="closeModal()">Cancelar</button>
+      <button class="mbtn-s" onclick="saveRecord()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete -->
+<div class="modal-bd" id="confirmBd">
+  <div class="confirm-box">
+    <h3>Remover colaborador</h3>
+    <p>Deseja remover <strong id="confirmName"></strong>?</p>
+    <div class="d-flex gap-2 justify-content-center">
+      <button class="mbtn-c" onclick="closeConfirm()">Cancelar</button>
+      <button class="mbtn-s" style="background:#ef4444" onclick="confirmDelete()">Remover</button>
+    </div>
+  </div>
+</div>
+
+<div class="ace-toast" id="toast"></div>
+<button class="ace-btt" id="aceBtt" onclick="window.scrollTo({top:0,behavior:'smooth'})" title="Voltar ao topo">↑</button>
+
+<script>
+/* =====================================================
+   STATE
+===================================================== */
+const API = '/api/colaboradores';
+const MONTH_PT = ['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const MONTH_FULL = ['Janeiro','Fevereiro','Março','Abril','Maio','Junho','Julho','Agosto','Setembro','Outubro','Novembro','Dezembro'];
+
+let records = [];
+let editId  = null;
+let deleteId = null;
+let bdayMonthIdx = new Date().getMonth(); // 0-11
+let currentUser = null;
+
+/* =====================================================
+   API HELPERS
+===================================================== */
+async function apiGet(){
+  const r = await fetch(API, {headers: ACE_AUTH.headers()});
+  const j = await r.json();
+  if(!j.sucesso) throw new Error(j.mensagem||'Erro ao carregar');
+  return j.dados;
+}
+async function apiPost(body){
+  const r = await fetch(API,{method:'POST',headers:ACE_AUTH.headers(),body:JSON.stringify(body)});
+  const j = await r.json();
+  if(!j.sucesso) throw new Error(j.mensagem||'Erro ao salvar');
+  return j.dados;
+}
+async function apiPut(id,body){
+  const r = await fetch(`${API}/${id}`,{method:'PUT',headers:ACE_AUTH.headers(),body:JSON.stringify(body)});
+  const j = await r.json();
+  if(!j.sucesso) throw new Error(j.mensagem||'Erro ao atualizar');
+}
+async function apiDelete(id){
+  const r = await fetch(`${API}/${id}`,{method:'DELETE',headers:ACE_AUTH.headers()});
+  const j = await r.json();
+  if(!j.sucesso) throw new Error(j.mensagem||'Erro ao remover');
+}
+
+/* =====================================================
+   LOAD
+===================================================== */
+async function loadRecords(){
+  try{
+    records = await apiGet();
+    buildSetores();
+    renderCards();
+    renderBdays();
+    /* Mostra/oculta botões baseado na role */
+    const canEdit = ACE_AUTH.canEditColaboradores();
+    document.querySelectorAll('.rh-ti-only').forEach(el => {
+      el.style.display = canEdit ? '' : 'none';
+    });
+  }catch(e){
+    document.getElementById('cardGrid').innerHTML=`<div class="loading-state" style="color:#ef4444">Erro ao carregar: ${esc(e.message)}</div>`;
+  }
+}
+
+/* =====================================================
+   UTILS
+===================================================== */
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* =====================================================
+   FILTER
+===================================================== */
+function doFilter(){renderCards();}
+function clearFilter(){document.getElementById('qInput').value='';document.getElementById('setorSel').value='';renderCards();}
+
+function buildSetores(){
+  const sel = document.getElementById('setorSel');
+  const sectors = [...new Set(records.map(r=>{
+    const c = r.cargo||'';
+    const m = c.match(/^([^-]+)/);return m?m[1].trim():c;
+  }).filter(Boolean))].sort();
+  sel.innerHTML='<option value="">Todos</option>'+sectors.map(s=>`<option value="${esc(s)}">${esc(s)}</option>`).join('');
+}
+
+function filteredRecords(){
+  const q   = (document.getElementById('qInput').value||'').toLowerCase().trim();
+  const set = (document.getElementById('setorSel').value||'').toLowerCase();
+  return records.filter(r=>{
+    if(q && !r.nome.toLowerCase().includes(q) && !(r.ramal||'').includes(q) && !(r.cargo||'').toLowerCase().includes(q) && !(r.email||'').toLowerCase().includes(q)) return false;
+    if(set && !(r.cargo||'').toLowerCase().startsWith(set)) return false;
+    return true;
+  }).sort((a,b)=>a.nome.localeCompare(b.nome,'pt'));
+}
+
+/* =====================================================
+   RENDER CARDS
+===================================================== */
+function renderCards(){
+  const rows = filteredRecords();
+  document.getElementById('countPill').textContent = rows.length;
+  const grid = document.getElementById('cardGrid');
+  if(!rows.length){grid.innerHTML='<div style="text-align:center;padding:2rem;color:#9ca3af;font-size:.88rem">Nenhum colaborador encontrado.</div>';return;}
+
+  grid.innerHTML = rows.map(r=>{
+    const emailFull = r.email ? `${r.email}@prefeitura.sp.gov.br` : '';
+    const initials  = r.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    return `<div class="contact-card">
+      <div class="d-flex gap-3">
+        <div style="width:42px;height:42px;border-radius:50%;background:#e0e7ff;display:flex;align-items:center;justify-content:center;font-size:.85rem;font-weight:700;color:#3730a3;flex-shrink:0">${esc(initials)}</div>
+        <div style="flex:1;min-width:0">
+          <p class="cc-name">${esc(r.nome)}</p>
+          <p class="cc-cargo">${esc(r.cargo)}</p>
+          <div class="cc-meta">
+            ${r.ramal?`<span>📞 <span class="ramal-tag">${esc(r.ramal)}</span></span>`:''}
+            ${r.niver?`<span>🎂 ${esc(r.niver)}</span>`:''}
+            ${emailFull?`<span>✉️ <a href="mailto${emailFull}" style="color:#3b82f6;font-weight:600;text-decoration:none">${esc(emailFull)}</a></span>`:''}
+          </div>
+          <div class="cc-actions no-print d-flex gap-1">
+            ${ACE_AUTH.canEditColaboradores()?`<button class="btn btn-sm btn-outline-primary" onclick="openEdit(${r.id})">✏️ Editar</button><button class="btn btn-sm btn-outline-danger" onclick="openConfirm(${r.id})">🗑️ Remover</button>`:''}
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* =====================================================
+   BIRTHDAYS
+===================================================== */
+function changeMonth(delta){
+  bdayMonthIdx = (bdayMonthIdx + delta + 12) % 12;
+  renderBdays();
+}
+
+function renderBdays(){
+  const now = new Date();
+  const curMonth = MONTH_PT[bdayMonthIdx];
+  const curDay   = now.getDate();
+  const isCurrentMonth = bdayMonthIdx === now.getMonth();
+
+  document.getElementById('bdayMonthLbl').textContent = MONTH_PT[bdayMonthIdx].charAt(0).toUpperCase()+MONTH_PT[bdayMonthIdx].slice(1);
+  document.getElementById('bdayHead').textContent = `🎂 Aniversários`;
+
+  const bdays = records.filter(r=>{
+    if(!r.niver) return false;
+    const p = r.niver.split('/');
+    return p.length===2 && p[1].toLowerCase()===curMonth;
+  }).sort((a,b)=>{const da=parseInt(a.niver)||0,db=parseInt(b.niver)||0;return da-db;});
+
+  const list = document.getElementById('bdayList');
+  if(!bdays.length){list.innerHTML='<div class="empty-bday">Nenhum aniversário em '+MONTH_FULL[bdayMonthIdx]+' 🙂</div>';return;}
+
+  list.innerHTML = bdays.map(r=>{
+    const day     = parseInt(r.niver)||0;
+    const isToday = isCurrentMonth && day === curDay;
+    const initials= r.nome.split(' ').slice(0,2).map(w=>w[0]).join('').toUpperCase();
+    return `<div class="bday-item${isToday?' bday-today':''}">
+      <div class="bday-avatar">${isToday?'🎉':esc(initials)}</div>
+      <div class="bday-info">
+        <div class="bday-name">${esc(r.nome.split(' ')[0])} ${esc(r.nome.split(' ').slice(-1)[0])}</div>
+        <div class="bday-date">${esc(r.niver)}${isToday?' 🎂 Hoje!':''}</div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+/* =====================================================
+   MODAL ADD / EDIT
+===================================================== */
+function openModal(){
+  editId = null;
+  document.getElementById('modalTtl').textContent='Adicionar Colaborador';
+  ['fNome','fRamal','fNiver','fCargo','fEmail'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('modalBd').classList.add('open');
+  document.getElementById('fNome').focus();
+}
+function openEdit(id){
+  const r = records.find(x=>x.id===id); if(!r) return;
+  editId = id;
+  document.getElementById('modalTtl').textContent='Editar Colaborador';
+  document.getElementById('fNome').value  = r.nome  ||'';
+  document.getElementById('fRamal').value = r.ramal ||'';
+  document.getElementById('fNiver').value = r.niver ||'';
+  document.getElementById('fCargo').value = r.cargo ||'';
+  document.getElementById('fEmail').value = r.email ||'';
+  document.getElementById('modalBd').classList.add('open');
+  document.getElementById('fNome').focus();
+}
+function closeModal(){document.getElementById('modalBd').classList.remove('open');}
+
+async function saveRecord(){
+  const nome = document.getElementById('fNome').value.trim();
+  if(!nome){document.getElementById('fNome').focus();return;}
+  const body = {
+    nome,
+    ramal: document.getElementById('fRamal').value.trim(),
+    cargo: document.getElementById('fCargo').value.trim(),
+    niver: document.getElementById('fNiver').value.trim(),
+    email: document.getElementById('fEmail').value.trim()
+  };
+  try{
+    if(editId !== null){
+      await apiPut(editId, body);
+      showToast('Colaborador atualizado!');
+    } else {
+      await apiPost(body);
+      showToast('Colaborador adicionado!');
+    }
+    closeModal();
+    await loadRecords();
+  }catch(e){showToast('Erro: '+e.message);}
+}
+
+/* =====================================================
+   DELETE
+===================================================== */
+function openConfirm(id){
+  deleteId = id;
+  const r = records.find(x=>x.id===id);
+  document.getElementById('confirmName').textContent = r?r.nome:'este colaborador';
+  document.getElementById('confirmBd').classList.add('open');
+}
+function closeConfirm(){document.getElementById('confirmBd').classList.remove('open');deleteId=null;}
+async function confirmDelete(){
+  if(deleteId===null)return;
+  try{
+    await apiDelete(deleteId);
+    closeConfirm();
+    showToast('Colaborador removido.');
+    await loadRecords();
+  }catch(e){showToast('Erro: '+e.message);}
+}
+
+/* =====================================================
+   OVERLAY DE IMPRESSÃO (sem popup)
+===================================================== */
+function _overlayImpressao(fullHtml) {
+  const old = document.getElementById('_prntOverlay');
+  if (old) old.remove();
+  const ov = document.createElement('div');
+  ov.id = '_prntOverlay';
+  ov.style.cssText = 'position:fixed;inset:0;z-index:9999;background:#fff;display:flex;flex-direction:column';
+  ov.innerHTML = `
+    <style>@media(max-width:480px){._acePs{display:none}}</style>
+    <div style="padding:10px 14px;background:#fff;border-bottom:1px solid #e5e7eb;display:flex;gap:8px;align-items:center;flex-shrink:0;flex-wrap:wrap">
+      <button id="_prntBtn" style="background:#10b981;color:#fff;border:none;border-radius:8px;padding:8px 18px;font-weight:700;font-size:.88rem;cursor:pointer;transition:background .12s" onmouseover="this.style.background='#059669'" onmouseout="this.style.background='#10b981'">🖨️ Imprimir</button>
+      <button onclick="document.getElementById('_prntOverlay').remove()" style="background:#f3f4f6;color:#374151;border:1.5px solid #e5e7eb;border-radius:8px;padding:8px 14px;font-weight:700;font-size:.88rem;cursor:pointer;transition:all .12s" onmouseover="this.style.background='#e5e7eb'" onmouseout="this.style.background='#f3f4f6'">✕ Fechar</button>
+      <span class="_acePs" style="color:#9ca3af;font-size:.75rem;margin-left:6px">Prévia de impressão</span>
+    </div>
+    <iframe id="_prntFrame" style="flex:1;border:none;width:100%"></iframe>`;
+  document.body.appendChild(ov);
+  const f = document.getElementById('_prntFrame');
+  f.contentDocument.open(); f.contentDocument.write(fullHtml); f.contentDocument.close();
+  document.getElementById('_prntBtn').onclick = () => f.contentWindow.print();
+}
+
+/* =====================================================
+   PRINT — all visible cards
+===================================================== */
+function printAll(){
+  const rows = filteredRecords();
+  if(!rows.length){showToast('Nenhum colaborador para imprimir.');return;}
+
+  const cardHtml = rows.map(r=>{
+    const emailFull = r.email ? `${r.email}@prefeitura.sp.gov.br` : '';
+    return `<div class="pcard">
+      <div class="pname">${esc(r.nome)}</div>
+      <div class="pcargo">${esc(r.cargo)}</div>
+      ${r.ramal||r.niver||emailFull?`<div class="pmeta">${r.ramal?`<span>📞 ${esc(r.ramal)}</span>`:''}${r.niver?`<span>🎂 ${esc(r.niver)}</span>`:''}${emailFull?`<span>✉️ ${esc(emailFull)}</span>`:''}</div>`:''}
+    </div>`;
+  }).join('');
+
+  _overlayImpressao(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Colaboradores — SMRI</title>
+  <style>
+    @page{size:A4;margin:15mm}
+    body{font-family:Arial,sans-serif;font-size:10pt;background:#fff;margin:0}
+    h1{font-size:14pt;font-weight:700;margin:0 0 4px;color:#1f2937}
+    .subtitle{font-size:9pt;color:#6b7280;margin-bottom:14px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}
+    .pcard{border:1px solid #e5e7eb;border-radius:8px;padding:8px 10px;break-inside:avoid}
+    .pname{font-weight:700;font-size:10.5pt;color:#1f2937;margin-bottom:2px}
+    .pcargo{font-size:8.5pt;color:#6366f1;font-weight:600;margin-bottom:4px}
+    .pmeta{font-size:8pt;color:#6b7280;display:flex;flex-wrap:wrap;gap:6px}
+    .pmeta span{display:inline-flex;align-items:center;gap:2px}
+    .footer{margin-top:14px;font-size:8pt;color:#9ca3af;text-align:center;border-top:1px solid #e5e7eb;padding-top:8px}
+  </style></head>
+  <body>
+    <h1>Colaboradores / Ramais — SMRI</h1>
+    <div class="subtitle">Total: ${rows.length} colaborador${rows.length!==1?'es':''} • Impresso em ${new Date().toLocaleDateString('pt-BR')}</div>
+    <div class="grid">${cardHtml}</div>
+    <div class="footer">Secretaria Municipal de Relações Internacionais — Uso Interno</div>
+  </body></html>`);
+}
+
+/* =====================================================
+   EVENTS
+===================================================== */
+document.getElementById('modalBd').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('confirmBd').addEventListener('click',e=>{if(e.target===e.currentTarget)closeConfirm();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeModal();closeConfirm();}
+  if(e.key==='Enter'&&document.getElementById('modalBd').classList.contains('open')&&document.activeElement.tagName.toLowerCase()==='input')saveRecord();
+});
+
+/* =====================================================
+   BACK TO TOP
+===================================================== */
+window.addEventListener('scroll',()=>{
+  const btn = document.getElementById('aceBtt');
+  if(btn) btn.classList.toggle('visible', window.scrollY > 300);
+});
+
+/* =====================================================
+   TOAST
+===================================================== */
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+/* =====================================================
+   INIT
+===================================================== */
+(async () => {
+  currentUser = await ACE_AUTH.check();
+  if (!currentUser) return;
+  ACE_AUTH.renderNavbar('Colaboradores / Ramais');
+  await loadRecords();
+})();
+</script>
+</body>
+</html>

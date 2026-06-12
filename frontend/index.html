@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACE</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="icon" type="image/png" href="img/logo-prefeitura.png" />
+  <script src="/js/auth.js"></script>
+</head>
+
+<body>
+  <div class="container py-4">
+
+    <!-- SAUDAÇÃO NO TOPO -->
+    <div class="mb-4">
+      <h1 class="home-titulo mb-1" id="saudacao">Bem-vindo!</h1>
+      <p class="home-subtitulo mb-0" id="cargoUsuario">Secretaria Municipal de Relações Internacionais</p>
+    </div>
+
+    <!-- CARD DE APRESENTAÇÃO -->
+    <section class="card shadow-sm border-0 home-apresentacao mb-4">
+      <div class="card-body">
+        <div class="row g-4 align-items-center">
+          <div class="col-lg-8">
+            <h2 class="mb-2">Aplicação de Controle Exclusivo</h2>
+            <p class="mb-0">
+              Plataforma interna da SMRI para centralizar e padronizar materiais institucionais.
+              Aqui você gera prismas, mesas e comboios, acessa colaboradores e ramais,
+              cria assinaturas de e-mail e gerencia links úteis.
+            </p>
+            <br>
+            <p class="mb-0">Selecione um módulo no menu abaixo para começar.</p>
+          </div>
+
+          <div class="col-lg-4">
+            <div class="home-box-destaque">
+              <h3 class="mb-3">Acesso rápido</h3>
+              <div class="d-grid gap-2" id="acessoRapidoCards">
+                <a href="/gerar-prisma"  class="btn btn-home-principal">Gerar Prisma</a>
+                <a href="/lista-prismas" class="btn btn-home-secundario">Ver Lista de Prismas</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MÓDULOS -->
+    <section class="mb-4">
+      <h2 class="h6 text-muted text-uppercase mb-3" style="letter-spacing:.06em;font-weight:700">
+        🗂️ Módulos
+      </h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-4">
+          <a href="/gerar-prisma" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">🪪</div>
+              <h2 class="home-card-titulo">Gerar Prisma</h2>
+              <p class="home-card-texto mb-0">
+                Cadastre os dados e monte prismas grandes ou pequenos com pré-visualização.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <a href="/assinatura" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">✍️</div>
+              <h2 class="home-card-titulo">Gerar Assinatura</h2>
+              <p class="home-card-texto mb-0">
+                Crie e copie a assinatura institucional de e-mail pronta para o Outlook.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <a href="/contribuintes-ramais" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">📞</div>
+              <h2 class="home-card-titulo">Colaboradores / Ramais</h2>
+              <p class="home-card-texto mb-0">
+                Consulta, busca e gestão de colaboradores e ramais internos da SMRI.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <a href="/lista-prismas" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">📋</div>
+              <h2 class="home-card-titulo">Lista de Prismas</h2>
+              <p class="home-card-texto mb-0">
+                Consulte os prismas adicionados e acompanhe a organização dos lotes.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <a href="/gerar-mesa" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">🪑</div>
+              <h2 class="home-card-titulo">Gerar Mesa</h2>
+              <p class="home-card-texto mb-0">
+                Geração e organização de identificadores de mesa.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <a href="/gerar-comboio" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">🚌</div>
+              <h2 class="home-card-titulo">Gerar Comboio</h2>
+              <p class="home-card-texto mb-0">
+                Editor de disposição de comboios institucionais com veículos e pistas.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <a href="/links-uteis" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">🔗</div>
+              <h2 class="home-card-titulo">Links Úteis</h2>
+              <p class="home-card-texto mb-0">
+                Acesso rápido a sistemas, impressoras, portais e ferramentas do dia a dia.
+              </p>
+            </div>
+          </a>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <a href="/sobre-sistema" class="card home-card-link shadow-sm border-0 text-decoration-none h-100">
+            <div class="card-body">
+              <div class="home-card-icone">ℹ️</div>
+              <h2 class="home-card-titulo">Sobre o Sistema</h2>
+              <p class="home-card-texto mb-0">
+                Informações do projeto, funcionalidades, tecnologias e autoria.
+              </p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- EM BREVE -->
+    <section class="mb-4">
+      <h2 class="h6 text-muted text-uppercase mb-3" style="letter-spacing:.06em;font-weight:700">
+        🚧 Em breve
+      </h2>
+      <div class="row g-4">
+        <div class="col-md-6 col-xl-4">
+          <div class="card home-card-link em-breve shadow-sm border-0 h-100">
+            <div class="card-body">
+              <div class="home-card-icone">📝</div>
+              <h2 class="home-card-titulo">
+                Modelo de Documentos
+                <span class="badge-em-breve ms-2">Em breve</span>
+              </h2>
+              <p class="home-card-texto mb-0">
+                Geração de briefings padronizados para eventos e reuniões internacionais.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-xl-4">
+          <div class="card home-card-link em-breve shadow-sm border-0 h-100">
+            <div class="card-body">
+              <div class="home-card-icone">🖼️</div>
+              <h2 class="home-card-titulo">
+                Banco de Imagens
+                <span class="badge-em-breve ms-2">Em breve</span>
+              </h2>
+              <p class="home-card-texto mb-0">
+                Repositório centralizado de imagens e materiais visuais institucionais.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- RODAPÉ -->
+    <footer class="home-footer mt-4">
+      <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+        <div>
+          <strong>ACE</strong> — Aplicação de Controle Exclusivo &nbsp;·&nbsp; SMRI
+        </div>
+        <div class="home-footer-texto">
+          © <strong>2026</strong> Todos os direitos reservados.
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    (async () => {
+      const user = await ACE_AUTH.check();
+      if (!user) return;
+
+      /* Navbar */
+      ACE_AUTH.renderNavbar('Início');
+
+      /* Saudação com gênero */
+      const firstName = user.nome.split(' ')[0];
+
+      // Determina o gênero: usa o campo do banco; fallback por nome caso sessão antiga
+      const NOMES_F = ['alice','angela','brenda','camila','claudia','francielly',
+        'giovana','giovanna','laura','luisa','luiza','marcella','maria','milla',
+        'patricia','paula','rafaela','regiane','rosana','stella','tayna',
+        'valdineia','vera','vitoria','vitória'];
+      const genero = user.genero ||
+        (NOMES_F.includes(firstName.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g,''))
+          ? 'F' : 'M');
+
+      const saudacao = (genero === 'F') ? 'Bem-vinda' : 'Bem-vindo';
+      const elSauda = document.getElementById('saudacao');
+      if (elSauda) elSauda.textContent = `${saudacao}, ${firstName}!`;
+
+      /* Cargo do usuário (busca na lista de colaboradores) */
+      try {
+        const rc = await fetch('/api/colaboradores', { headers: ACE_AUTH.headers() });
+        const jc = await rc.json();
+        if (jc.sucesso && jc.colaboradores) {
+          const parts = user.nome.toLowerCase().split(' ').filter(p => p.length > 2);
+          const col = jc.colaboradores.find(c => {
+            const cn = c.nome.toLowerCase();
+            return parts.filter(p => cn.includes(p)).length >= 2;
+          });
+          const elCargo = document.getElementById('cargoUsuario');
+          if (elCargo && col && col.cargo) elCargo.textContent = col.cargo + ' · SMRI';
+        }
+      } catch(e) { /* mantém o texto padrão */ }
+
+      /* Acesso Rápido personalizado */
+      const PAGE_INFO = {
+        '/gerar-prisma':         { label: 'Gerar Prisma',          ico: '🪪' },
+        '/lista-prismas':        { label: 'Lista de Prismas',       ico: '📋' },
+        '/gerar-mesa':           { label: 'Gerar Mesa',             ico: '🪑' },
+        '/gerar-comboio':        { label: 'Gerar Comboio',          ico: '🚌' },
+        '/contribuintes-ramais': { label: 'Colaboradores / Ramais', ico: '📞' },
+        '/links-uteis':          { label: 'Links Úteis',            ico: '🔗' },
+        '/assinatura':           { label: 'Gerar Assinatura',       ico: '✍️' },
+      };
+
+      try {
+        const resp  = await fetch('/api/analytics/top?limit=2', { headers: ACE_AUTH.headers() });
+        const json  = await resp.json();
+        const pages = (json.sucesso && json.pages.length > 0) ? json.pages : [];
+
+        if (pages.length > 0) {
+          const container = document.getElementById('acessoRapidoCards');
+          // Mantém estilo de botão igual ao original
+          const btns = pages.map((p, i) => {
+            const info = PAGE_INFO[p.page] || { label: p.page, ico: '📄' };
+            const cls  = i === 0 ? 'btn btn-home-principal' : 'btn btn-home-secundario';
+            return `<a href="${p.page}" class="${cls}">${info.ico} ${info.label}</a>`;
+          });
+          container.innerHTML = btns.join('');
+        }
+      } catch(e) { /* mantém os links padrão */ }
+    })();
+  </script>
+</body>
+
+</html>

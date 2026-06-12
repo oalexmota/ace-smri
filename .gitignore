@@ -1,0 +1,21 @@
+# Dependências
+node_modules/
+
+# Banco de dados (gerado automaticamente pelo init.js)
+backend/database/prismas.db
+backend/database/*.db
+
+# Variáveis de ambiente com segredos
+.env
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/

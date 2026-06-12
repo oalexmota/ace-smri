@@ -1,0 +1,759 @@
+/* ==========================================================================
+   NAVBAR GLOBAL
+   ========================================================================== */
+
+.ace-navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  background: #fff;
+  color: rgb(31, 41, 55);
+  height: 54px;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  gap: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,.25);
+}
+
+.ace-nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  text-decoration: none;
+  color: #000000;
+  font-weight: 800;
+  font-size: 1rem;
+  letter-spacing: -.2px;
+  flex-shrink: 0;
+}
+
+.ace-nav-brand:hover { color:rgb(75 85 99); }
+
+.ace-nav-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  opacity: .9;
+}
+
+.ace-nav-divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(75, 85, 99, 0.432);
+  flex-shrink: 0;
+}
+
+.ace-nav-page {
+  font-size: .88rem;
+  color:rgb(75 85 99);
+  font-weight: 500;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* ── Botão "← Início" abaixo da navbar (injetado por auth.js) ── */
+.ace-btn-voltar {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: #1f2937;
+  color: #fff;
+  border-radius: 8px;
+  padding: 7px 16px;
+  font-size: .82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background .15s;
+}
+.ace-btn-voltar:hover { background: #374151; color: #fff; }
+
+/* ── User dropdown ── */
+.ace-nav-user {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.ace-nav-user-btn {
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(0, 0, 0, 0.22);
+  color: #000000;
+  border-radius: 20px;
+  padding: 5px 14px;
+  font-size: .78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.ace-nav-user-btn:hover { background: linear-gradient(rgb(247, 249, 252), rgb(238, 243, 249)); }
+
+.ace-nav-caret {
+  font-size: .6rem;
+  opacity: .7;
+  transition: transform .15s;
+}
+
+.ace-nav-caret.open { transform: rotate(180deg); }
+
+.ace-nav-dropdown {
+  display: none;
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 8px 28px rgba(0,0,0,.18);
+  min-width: 200px;
+  overflow: hidden;
+  z-index: 1010;
+}
+
+.ace-nav-dropdown.open { display: block; }
+
+.ace-nav-dd-info {
+  padding: 12px 16px 10px;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.ace-nav-dd-name {
+  font-size: .82rem;
+  font-weight: 700;
+  color: #1f2937;
+  line-height: 1.3;
+}
+
+.ace-nav-dd-role {
+  font-size: .72rem;
+  color: #9ca3af;
+  margin-top: 2px;
+}
+
+.ace-nav-dd-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  background: none;
+  border: none;
+  color: #ef4444;
+  font-size: .85rem;
+  font-weight: 700;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ace-nav-dd-btn:hover { background: linear-gradient(rgb(247, 249, 252), rgb(238, 243, 249)); }
+
+/* ==========================================================================
+   ESTILO GERAL
+   ========================================================================== */
+
+body {
+  background-color: #dde9f7;
+  font-family: Arial, Helvetica, sans-serif;
+  color: #1f1f1f;
+  padding-top: 54px; /* reserva espaço para a navbar fixa */
+}
+
+.titulo-pagina {
+  font-weight: 700;
+}
+
+.painel-lateral {
+  border-radius: 16px;
+  position: sticky;
+  top: 70px;   /* 54px navbar + 16px gap */
+}
+
+.area-preview-card {
+  border-radius: 16px;
+}
+
+.area-preview-card .card-body {
+  overflow: hidden;
+}
+
+.form-check-input:checked {
+  background-color: #000;
+  border-color: #000;
+}
+
+.form-check-input[type=checkbox] {
+  border-radius: .25em;
+  border-color: gray;
+}
+
+/* ==========================================================================
+   LISTA DE PRISMAS CADASTRADOS
+   ========================================================================== */
+.card-prismas-adicionados {
+  border-radius: 16px;
+  height: auto;
+  align-self: flex-start;
+  position: sticky;
+  top: 70px; /* 54px navbar + 16px gap */
+}
+
+.card-prismas-adicionados .card-body {
+  min-height: 0;
+}
+
+.lista-prismas {
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.item-prisma-lista {
+  border: 1px solid #808080;
+  border-radius: 12px;
+  padding: 12px;
+  background-color: #ffffff;
+  margin-bottom: 12px;
+}
+
+.item-prisma-lista h3 {
+  font-size: 1rem;
+  margin-bottom: 6px;
+  font-weight: 700;
+}
+
+.item-prisma-lista p {
+  margin-bottom: 4px;
+  font-size: 0.94rem;
+}
+
+.item-prisma-lista .acoes-item {
+  margin-top: 10px;
+}
+
+/* ==========================================================================
+   ÁREA DE PRÉVIA
+   ========================================================================== */
+
+.preview-folhas {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 10px;
+}
+
+.estado-vazio-preview {
+  min-height: 300px;
+  border: 2px dashed #cfcfcf;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: #666;
+  background-color: #fafafa;
+  padding: 24px;
+}
+
+/* ==========================================================================
+   FOLHA
+   ========================================================================== */
+
+.folha {
+  width: 100%;
+  max-width: 760px;
+  min-height: 900px;
+  background-color: #ffffff;
+  border: 1px solid #d8d8d8;
+  border-radius: 8px;
+  margin: 0 auto;
+  padding: 32px 28px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  position: relative;
+  overflow: hidden;
+}
+
+.folha-titulo {
+  font-size: 0.95rem;
+  color: #666;
+  margin-bottom: 16px;
+  font-weight: 600;
+}
+
+.area-prismas-folha {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+  width: 100%;
+}
+
+/* ==========================================================================
+   PRISMA - BASE
+   ========================================================================== */
+
+.prisma {
+  border: 1px solid #1f1f1f;
+  background-color: #ececec;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+}
+
+.prisma,
+.prisma * {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+/* ==========================================================================
+   PRISMA GRANDE
+   ========================================================================== */
+
+.folha.tipo-grande .prisma {
+  width: 100%;
+  max-width: 700px;
+  height: 520px;
+}
+
+.metade-prisma {
+  flex: 1;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+}
+
+.metade-prisma-superior {
+  transform: rotate(180deg);
+  transform-origin: center;
+}
+
+.metade-prisma-inferior {
+  border-top: 1px solid #1f1f1f;
+}
+
+/* ==========================================================================
+   PRISMA PEQUENO
+   ========================================================================== */
+
+.folha.tipo-pequeno .prisma {
+  width: 100%;
+  max-width: 520px;
+  height: 320px;
+  background-color: #f2f2f2;
+}
+
+.folha.tipo-pequeno.quantidade-3 .area-prismas-folha {
+  gap: 16px;
+}
+
+.metade-prisma-pequeno {
+  flex: 1 1 50%;
+  height: 50%;
+  display: flex;
+  align-items: stretch;
+  position: relative;
+  overflow: hidden;
+}
+
+.metade-prisma-pequeno-superior {
+  transform: rotate(180deg);
+  transform-origin: center;
+}
+
+.metade-prisma-pequeno-inferior {
+  border-top: 1px solid #000;
+}
+
+/* ==========================================================================
+   FACE DO PRISMA — 3 modos de layout
+   ========================================================================== */
+
+.p-face {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;  /* âncora para img absoluta de drag */
+}
+
+/* Modo texto legado (compatibilidade) */
+.p-face.modo-texto { padding: 10px 20px; }
+
+/* Rascunho — borda tracejada */
+.prisma.rascunho {
+  border: 2px dashed #6b7280;
+  opacity: .9;
+}
+
+/* ==========================================================================
+   IMAGENS
+   ========================================================================== */
+
+.p-img-cheia {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.p-img-lado {
+  flex-shrink: 0;
+  object-fit: contain;
+  align-self: center;
+}
+
+.folha.tipo-grande .p-img-lado {
+  max-width: 160px;
+  max-height: 160px;
+}
+
+.folha.tipo-pequeno .p-img-lado {
+  max-width: 80px;
+  max-height: 80px;
+}
+
+/* ==========================================================================
+   TEXTOS
+   ========================================================================== */
+
+.p-textos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  min-width: 0;
+  overflow: hidden;
+  width: 100%;
+}
+
+.p-nome,
+.p-cargo,
+.p-empresa {
+  display: block;
+  width: 100%;
+  text-align: center;
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+  color: #000;
+  line-height: 1.15;
+}
+
+.p-nome {
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+
+.p-cargo {
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.p-empresa {
+  font-weight: 700;
+}
+
+/* ── Tamanhos padrão: grande ── */
+.folha.tipo-grande .p-nome    { font-size: 42px; letter-spacing: 0.5px; }
+.folha.tipo-grande .p-cargo   { font-size: 24px; }
+.folha.tipo-grande .p-empresa { font-size: 30px; }
+
+/* ── Tamanhos padrão: pequeno ── */
+.folha.tipo-pequeno .p-nome    { font-size: 26px; }
+.folha.tipo-pequeno .p-cargo   { font-size: 18px; }
+.folha.tipo-pequeno .p-empresa { font-size: 22px; }
+
+.item-prisma-lista .acoes-item {
+  margin-top: 10px;
+}
+
+.item-prisma-lista .form-control-sm {
+  font-size: 0.9rem;
+}
+
+.item-prisma-lista .badge {
+  font-size: 0.85rem;
+  min-width: 58px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   HOME / TELA INICIAL
+   ========================================================================== */
+
+.home-header {
+  border-radius: 20px;
+}
+
+.logo-prefeitura-box {
+  width: 72px;
+  height: 72px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #ffffff, #f1f4f8);
+  border: 1px solid #d9dfe7;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 1.3rem;
+  color: #b00000;
+  flex-shrink: 0;
+}
+
+.logo-prefeitura {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.home-titulo {
+  font-size: 2.4rem;
+  font-weight: 700;
+  color: #1f1f1f;
+}
+
+.home-subtitulo {
+  color: #5b6472;
+  font-size: 1rem;
+}
+
+.home-badge {
+  background-color: #1f2937;
+  color: #ffffff;
+  padding: 10px 16px;
+  border-radius: 999px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.home-card-link,
+.home-card-info,
+.home-apresentacao {
+  border-radius: 18px;
+  transition: all 0.2s ease;
+}
+
+.home-card-link:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.08);
+}
+
+.home-card-icone {
+  font-size: 2rem;
+  margin-bottom: 12px;
+}
+
+.home-card-titulo {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #1c1f24;
+  margin-bottom: 10px;
+}
+
+.home-card-texto {
+  color: #5b6472;
+  line-height: 1.5;
+}
+
+.home-apresentacao {
+  border-radius: 20px;
+}
+
+.home-box-destaque {
+  background: linear-gradient(180deg, #f7f9fc, #eef3f9);
+  border: 1px solid #dbe4ef;
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.btn-danger {
+  --bs-btn-bg: #e30613;
+  --bs-btn-hover-bg: #9b040e;
+  --bs-btn-border-color: #e30613;
+  --bs-btn-hover-border-color: #9b040e;
+}
+
+.btn-outline-danger {
+  --bs-btn-hover-bg: #9b040e;
+  --bs-btn-hover-border-color: #9b040e;
+}
+
+.btn-home-principal {
+  background-color: #e30613;
+  border: none;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.btn-home-principal:hover {
+  background-color: #9b040e;
+  color: #ffffff;
+}
+
+.btn-home-secundario {
+  background-color: #ffffff;
+  border: 1px solid #c8d2de;
+  color: #1f2937;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 12px 16px;
+}
+
+.btn-home-secundario:hover {
+  background-color: #f3f6fa;
+  color: #1f2937;
+}
+
+.home-footer {
+  background-color: #ffffff;
+  border: 1px solid #dde5ee;
+  border-radius: 16px;
+  padding: 16px 20px;
+  color: #4b5563;
+}
+
+.home-footer-texto {
+  color: #6b7280;
+}
+
+/* ==========================================================================
+   SOBRE O SISTEMA
+   ========================================================================== */
+
+.sobre-lista p {
+  margin-bottom: 10px;
+  padding-left: 14px;
+  position: relative;
+}
+
+.sobre-lista p::before {
+  content: "•";
+  position: absolute;
+  left: 0;
+  color: #8b0000;
+  font-weight: 700;
+}
+
+.item-prisma-lista {
+  position: relative;
+}
+
+.checkbox-selecao-prisma {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  transform: scale(1.2);
+}
+
+.item-prisma-lista.selecionado {
+  border: 2px solid #198754;
+  background-color: #f5fff9;
+}
+
+.item-prisma-lista .acoes-item {
+  margin-top: 10px;
+}
+
+.item-prisma-lista.oculto-por-tipo {
+  display: none;
+}
+
+/* ==========================================================================
+   CARDS "EM BREVE"
+   ========================================================================== */
+
+.badge-em-breve {
+  background: #fef3c7;
+  color: #92400e;
+  border: 1px solid #fcd34d;
+  font-size: .63rem;
+  font-weight: 800;
+  padding: 2px 8px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  vertical-align: middle;
+}
+
+.home-card-link.em-breve {
+  opacity: .6;
+  pointer-events: none;
+}
+
+.home-card-link.em-breve:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+/* Seção de Acesso Rápido personalizado */
+.acesso-rapido-cards {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.acesso-rapido-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 10px 16px;
+  text-decoration: none;
+  color: #1f2937;
+  font-weight: 600;
+  font-size: .88rem;
+  transition: all .15s;
+  flex: 1;
+  min-width: 160px;
+}
+
+.acesso-rapido-item:hover {
+  background: #f3f6fa;
+  color: #111827;
+  border-color: #c8d2de;
+  transform: translateY(-1px);
+}
+
+.acesso-rapido-item .ar-ico {
+  font-size: 1.4rem;
+}
+
+/* ==========================================================================
+   PÁGINA DE IMPRESSÃO
+   ========================================================================== */
+
+@page {
+  size: A4 portrait;
+  margin: 5mm;
+}
+
+/* ==========================================================================
+   IMPRESSÃO
+   ========================================================================== */
+
+@media print {
+  /* A impressão é feita via janela isolada (botão Imprimir).
+     Este bloco apenas garante que Ctrl+P direto na página fique em branco. */
+  body * { visibility: hidden !important; }
+  .estado-vazio-preview { display: none !important; }
+}

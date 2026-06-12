@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Links Úteis</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <link rel="icon" type="image/png" href="img/logo-prefeitura.png"/>
+  <script src="/js/auth.js"></script>
+  <style>
+    .filter-card{background:#fff;border-radius:14px;padding:1.1rem 1.4rem;box-shadow:0 2px 8px rgba(0,0,0,.06);border:1px solid #f3f4f6;margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem;flex-wrap:wrap}
+    .search-wrap{position:relative;flex:1;min-width:200px}
+    .search-wrap input{width:100%;padding:.42rem .75rem .42rem 2.1rem;border:1.5px solid #e5e7eb;border-radius:9px;font-size:.84rem;outline:none;transition:border .14s}
+    .search-wrap input:focus{border-color:#6b7280}
+    .search-wrap .sico{position:absolute;left:.65rem;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:.85rem;pointer-events:none}
+    .btn-add-main{background:#e30613;color:#fff;border:none;border-radius:9px;padding:.42rem 1.1rem;font-size:.82rem;font-weight:600;cursor:pointer;transition:background .12s;white-space:nowrap;display:flex;align-items:center;gap:.35rem}
+    .btn-add-main:hover{background:rgb(168, 29, 29)}
+    #btnAddShared{background:#2563eb}
+    #btnAddShared:hover{background:#1d4ed8}
+    /* Section divider */
+    .sec-divider{display:flex;align-items:center;gap:.75rem;margin:1.5rem 0 .9rem}
+    .sec-divider-line{flex:1;height:1.5px;background:#f3f4f6}
+    .sec-divider-label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;white-space:nowrap}
+    .sec-divider-badge{background:#f3f4f6;color:#9ca3af;font-size:.68rem;font-weight:700;border-radius:20px;padding:1px 9px}
+    /* Category headers */
+    .cat-header{display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem;margin-top:.25rem}
+    .cat-title{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:#9ca3af;margin:0}
+    .cat-line{flex:1;height:1px;background:#f3f4f6}
+    .cat-count{font-size:.68rem;color:#d1d5db;font-weight:700}
+    /* Link cards */
+    .links-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(265px,1fr));gap:.55rem;margin-bottom:1.5rem}
+    .link-card{display:flex;align-items:center;gap:.75rem;padding:.8rem 1rem;background:#fff;border:1.5px solid #f3f4f6;border-radius:12px;text-decoration:none;color:inherit;transition:all .14s;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+    .link-card:hover{border-color:#d1d5db;box-shadow:0 4px 12px rgba(0,0,0,.08);transform:translateY(-1px)}
+    .link-card.personal{border-color:#e0e7ff}
+    .link-card.personal:hover{border-color:#a5b4fc}
+    .link-ico{font-size:1.45rem;flex-shrink:0;width:34px;text-align:center;line-height:1}
+    .link-body{flex:1;min-width:0}
+    .link-name{font-weight:600;font-size:.84rem;color:#1f2937;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .link-desc{font-size:.72rem;color:#9ca3af;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-top:1px}
+    .link-acts{display:flex;gap:2px;flex-shrink:0;opacity:0;transition:opacity .12s}
+    .link-card:hover .link-acts{opacity:1}
+    .la{border:none;background:transparent;cursor:pointer;font-size:.72rem;padding:3px 6px;border-radius:5px;transition:background .1s;line-height:1}
+    .la:hover{background:#f3f4f6}
+    .la.del:hover{background:#fee2e2}
+    /* Modal */
+    .modal-bd{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:1040;align-items:center;justify-content:center}
+    .modal-bd.open{display:flex}
+    .modal-box{background:#fff;border-radius:16px;padding:1.75rem;width:100%;max-width:480px;box-shadow:0 12px 40px rgba(0,0,0,.18);max-height:90vh;overflow-y:auto}
+    .modal-ttl{font-size:1rem;font-weight:700;color:#1f2937;margin:0 0 1.1rem}
+    .flabel{font-size:.72rem;font-weight:700;text-transform:uppercase;letter-spacing:.05em;color:#6b7280;margin-bottom:.22rem;display:block}
+    .finput{width:100%;padding:.42rem .75rem;border:1.5px solid #e5e7eb;border-radius:8px;font-size:.84rem;outline:none;transition:border .14s}
+    .finput:focus{border-color:#6b7280}
+    .mf-row{display:flex;justify-content:flex-end;gap:.5rem;margin-top:1.1rem}
+    .mbtn-c{background:#fff;border:1.5px solid #e5e7eb;border-radius:8px;padding:.42rem 1rem;font-size:.82rem;font-weight:600;cursor:pointer;color:#374151}
+    .mbtn-c:hover{background:#f3f4f6}
+    .mbtn-s{background:#16a34a;border:none;border-radius:8px;padding:.42rem 1.25rem;font-size:.82rem;font-weight:600;cursor:pointer;color:#fff}
+    .mbtn-s:hover{background:#15803d}
+    .confirm-box{background:#fff;border-radius:14px;padding:1.5rem;width:100%;max-width:340px;box-shadow:0 10px 32px rgba(0,0,0,.18);text-align:center}
+    .confirm-box h3{font-size:.98rem;font-weight:700;margin-bottom:.5rem;color:#1f2937}
+    .confirm-box p{font-size:.84rem;color:#6b7280;margin-bottom:1.1rem}
+    .empty-state{text-align:center;padding:2.5rem;color:#9ca3af;font-size:.88rem}
+    .ace-toast{position:fixed;bottom:20px;right:20px;background:#1f2937;color:#fff;padding:8px 16px;border-radius:10px;font-size:.83rem;font-weight:500;z-index:9999;opacity:0;transform:translateY(7px);transition:all .22s;pointer-events:none}
+    .ace-toast.show{opacity:1;transform:translateY(0)}
+  </style>
+</head>
+<body>
+<div class="container py-4">
+
+  <div class="mb-4">
+    <h1 class="titulo-pagina mb-1">Links Úteis</h1>
+    <p class="text-muted mb-0">Acesso rápido a sistemas e portais institucionais</p>
+  </div>
+
+  <!-- Toolbar -->
+  <div class="filter-card">
+    <div class="search-wrap">
+      <span class="sico">🔍</span>
+      <input type="text" id="qInput" placeholder="Buscar links…" oninput="renderAll()"/>
+    </div>
+    <button class="btn-add-main" onclick="openModal('personal')">＋ Meu link</button>
+    <button class="btn-add-main ti-only" id="btnAddShared" style="display:none" onclick="openModal('shared')">＋ Link geral</button>
+  </div>
+
+  <!-- Containers -->
+  <div id="personalContainer"></div>
+  <div id="sharedContainer"><div class="empty-state">Carregando links…</div></div>
+
+  <footer class="home-footer mt-4">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-center gap-2">
+      <div><strong>ACE</strong> — Aplicação de Controle Exclusivo &nbsp;·&nbsp; SMRI</div>
+        <div class="home-footer-texto">
+          © <strong>2026</strong> Todos os direitos reservados.
+        </div>
+    </div>
+  </footer>
+</div>
+
+<!-- Add/Edit Modal -->
+<div class="modal-bd" id="modalBd">
+  <div class="modal-box">
+    <p class="modal-ttl" id="modalTtl">Adicionar Link</p>
+    <div id="modalScope" style="font-size:.75rem;color:#6366f1;font-weight:700;margin:-8px 0 12px;text-transform:uppercase;letter-spacing:.05em"></div>
+    <div class="row g-3">
+      <div class="col-12">
+        <label class="flabel">Nome do link</label>
+        <input type="text" id="fName" class="finput" placeholder="Ex: Portal SEI"/>
+      </div>
+      <div class="col-12">
+        <label class="flabel">URL</label>
+        <input type="url" id="fUrl" class="finput" placeholder="https://"/>
+      </div>
+      <div class="col-12">
+        <label class="flabel">Descrição (opcional)</label>
+        <input type="text" id="fDesc" class="finput" placeholder="Ex: Sistema Eletrônico de Informações"/>
+      </div>
+      <div class="col-6">
+        <label class="flabel">Categoria</label>
+        <input type="text" id="fCat" class="finput" list="catList" placeholder="Ex: Sistemas"/>
+        <datalist id="catList"></datalist>
+      </div>
+      <div class="col-6">
+        <label class="flabel">Ícone (emoji)</label>
+        <input type="text" id="fIco" class="finput" placeholder="🔗" maxlength="4"/>
+      </div>
+    </div>
+    <div class="mf-row">
+      <button class="mbtn-c" onclick="closeModal()">Cancelar</button>
+      <button class="mbtn-s" onclick="saveLink()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm Delete -->
+<div class="modal-bd" id="confirmBd">
+  <div class="confirm-box">
+    <h3>Remover link</h3>
+    <p>Deseja remover <strong id="confirmName"></strong>?</p>
+    <div class="d-flex gap-2 justify-content-center">
+      <button class="mbtn-c" onclick="closeConfirm()">Cancelar</button>
+      <button class="mbtn-s" style="background:#ef4444" onclick="confirmDelete()">Remover</button>
+    </div>
+  </div>
+</div>
+
+<div class="ace-toast" id="toast"></div>
+
+<script>
+/* =====================================================
+   STATE
+===================================================== */
+const API_SHARED   = '/api/links/compartilhados';
+const API_PERSONAL = '/api/links/pessoais';
+let sharedLinks   = [];
+let personalLinks = [];
+let editId   = null; // positive = shared, negative = personal (use id only, track type separately)
+let editType = null; // 'shared' | 'personal'
+let deleteId   = null;
+let deleteType = null;
+
+/* =====================================================
+   API HELPERS
+===================================================== */
+function h() { return ACE_AUTH.headers(); }
+
+async function loadAll() {
+  const [sr, pr] = await Promise.all([
+    fetch(API_SHARED,   { headers: h() }).then(r=>r.json()),
+    fetch(API_PERSONAL, { headers: h() }).then(r=>r.json())
+  ]);
+  if (sr.sucesso) sharedLinks   = sr.dados;
+  if (pr.sucesso) personalLinks = pr.dados;
+  renderAll();
+}
+
+/* =====================================================
+   UTILS
+===================================================== */
+function esc(s){return(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+
+/* =====================================================
+   RENDER
+===================================================== */
+function renderAll() {
+  const q = (document.getElementById('qInput').value||'').toLowerCase().trim();
+  const canTi = ACE_AUTH.canEditSharedLinks();
+
+  /* ── Shared links ── */
+  const fs = sharedLinks.filter(l=>!q||l.name.toLowerCase().includes(q)||(l.descricao||'').toLowerCase().includes(q)||(l.cat||'').toLowerCase().includes(q));
+  const sharedCats = [...new Set(sharedLinks.map(l=>l.cat||'Outros'))];
+  const sharedEl = document.getElementById('sharedContainer');
+
+  if (!fs.length && !q) {
+    sharedEl.innerHTML = '<div class="empty-state">Nenhum link compartilhado.</div>';
+  } else {
+    sharedEl.innerHTML = `
+      <div class="sec-divider">
+        <div class="sec-divider-line"></div>
+        <span class="sec-divider-label">🌐 Links da SMRI</span>
+        <span class="sec-divider-badge">${fs.length}</span>
+        <div class="sec-divider-line"></div>
+      </div>` +
+      sharedCats.map(cat => {
+        const cl = fs.filter(l=>(l.cat||'Outros')===cat);
+        if(!cl.length) return '';
+        return `<div>
+          <div class="cat-header">
+            <p class="cat-title">${esc(cat)}</p>
+            <span class="cat-count">${cl.length}</span>
+            <div class="cat-line"></div>
+          </div>
+          <div class="links-grid">
+            ${cl.map(l=>`<a class="link-card" href="${esc(l.url)}" target="_blank" rel="noopener">
+              <div class="link-ico">${l.ico||'🔗'}</div>
+              <div class="link-body">
+                <div class="link-name">${esc(l.name)}</div>
+                ${l.descricao?`<div class="link-desc">${esc(l.descricao)}</div>`:''}
+              </div>
+              ${canTi?`<div class="link-acts" onclick="event.preventDefault();event.stopPropagation()">
+                <button class="la" onclick="openEdit('shared',${l.id})">✏️</button>
+                <button class="la del" onclick="openConfirm('shared',${l.id})">🗑️</button>
+              </div>`:''}
+            </a>`).join('')}
+          </div>
+        </div>`;
+      }).join('');
+  }
+
+  /* ── Personal links ── */
+  const fp = personalLinks.filter(l=>!q||l.name.toLowerCase().includes(q)||(l.descricao||'').toLowerCase().includes(q)||(l.cat||'').toLowerCase().includes(q));
+  const personalEl = document.getElementById('personalContainer');
+
+  let html = `
+    <div class="sec-divider">
+      <div class="sec-divider-line"></div>
+      <span class="sec-divider-label">🔖 Meus Links</span>
+      <span class="sec-divider-badge">${fp.length}</span>
+      <div class="sec-divider-line"></div>
+    </div>`;
+
+  if(!fp.length) {
+    html += `<div class="empty-state" style="padding:1.5rem">Você ainda não adicionou links pessoais. <br>Clique em <strong>＋ Meu link</strong> para começar.</div>`;
+  } else {
+    const pCats = [...new Set(personalLinks.map(l=>l.cat||'Meus Links'))];
+    html += pCats.map(cat => {
+      const cl = fp.filter(l=>(l.cat||'Meus Links')===cat);
+      if(!cl.length) return '';
+      return `<div>
+        <div class="cat-header">
+          <p class="cat-title">${esc(cat)}</p>
+          <span class="cat-count">${cl.length}</span>
+          <div class="cat-line"></div>
+        </div>
+        <div class="links-grid">
+          ${cl.map(l=>`<a class="link-card personal" href="${esc(l.url)}" target="_blank" rel="noopener">
+            <div class="link-ico">${l.ico||'🔗'}</div>
+            <div class="link-body">
+              <div class="link-name">${esc(l.name)}</div>
+              ${l.descricao?`<div class="link-desc">${esc(l.descricao)}</div>`:''}
+            </div>
+            <div class="link-acts" onclick="event.preventDefault();event.stopPropagation()">
+              <button class="la" onclick="openEdit('personal',${l.id})">✏️</button>
+              <button class="la del" onclick="openConfirm('personal',${l.id})">🗑️</button>
+            </div>
+          </a>`).join('')}
+        </div>
+      </div>`;
+    }).join('');
+  }
+  personalEl.innerHTML = html;
+
+  /* catList datalist */
+  const allCats = [...new Set([...sharedLinks,...personalLinks].map(l=>l.cat||'Outros'))];
+  document.getElementById('catList').innerHTML = allCats.map(c=>`<option value="${esc(c)}">`).join('');
+}
+
+/* =====================================================
+   MODAL
+===================================================== */
+function openModal(type='personal') {
+  editId = null; editType = type;
+  const isShared = type === 'shared';
+  document.getElementById('modalTtl').textContent  = isShared ? 'Adicionar Link Geral' : 'Adicionar Meu Link';
+  document.getElementById('modalScope').textContent = isShared ? '🌐 Visível para todos' : '🔖 Somente você verá este link';
+  ['fName','fUrl','fDesc','fCat','fIco'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fIco').value = '🔗';
+  document.getElementById('fCat').value = isShared ? '' : 'Meus Links';
+  document.getElementById('modalBd').classList.add('open');
+  document.getElementById('fName').focus();
+}
+function openEdit(type, id) {
+  const links = type === 'shared' ? sharedLinks : personalLinks;
+  const l = links.find(x=>x.id===id); if(!l) return;
+  editId = id; editType = type;
+  const isShared = type === 'shared';
+  document.getElementById('modalTtl').textContent  = isShared ? 'Editar Link Geral' : 'Editar Meu Link';
+  document.getElementById('modalScope').textContent = isShared ? '🌐 Visível para todos' : '🔖 Somente você verá este link';
+  document.getElementById('fName').value = l.name||'';
+  document.getElementById('fUrl').value  = l.url ||'';
+  document.getElementById('fDesc').value = l.descricao||'';
+  document.getElementById('fCat').value  = l.cat ||'';
+  document.getElementById('fIco').value  = l.ico ||'🔗';
+  document.getElementById('modalBd').classList.add('open');
+  document.getElementById('fName').focus();
+}
+function closeModal(){document.getElementById('modalBd').classList.remove('open');}
+
+async function saveLink() {
+  const name = document.getElementById('fName').value.trim();
+  const url  = document.getElementById('fUrl').value.trim();
+  if(!name||!url){(name?document.getElementById('fUrl'):document.getElementById('fName')).focus();return;}
+  const body = {
+    name, url: url.startsWith('http')?url:'https://'+url,
+    descricao: document.getElementById('fDesc').value.trim(),
+    cat: document.getElementById('fCat').value.trim()||(editType==='shared'?'Outros':'Meus Links'),
+    ico: document.getElementById('fIco').value.trim()||'🔗'
+  };
+  const base = editType === 'shared' ? API_SHARED : API_PERSONAL;
+  try {
+    if (editId !== null) {
+      const r = await fetch(`${base}/${editId}`,{method:'PUT',headers:h(),body:JSON.stringify(body)});
+      const j = await r.json(); if(!j.sucesso) throw new Error(j.mensagem);
+      showToast('Link atualizado!');
+    } else {
+      const r = await fetch(base,{method:'POST',headers:h(),body:JSON.stringify(body)});
+      const j = await r.json(); if(!j.sucesso) throw new Error(j.mensagem);
+      showToast('Link adicionado!');
+    }
+    closeModal();
+    await loadAll();
+  } catch(e) { showToast('Erro: '+e.message); }
+}
+
+/* =====================================================
+   DELETE
+===================================================== */
+function openConfirm(type, id) {
+  deleteId = id; deleteType = type;
+  const links = type === 'shared' ? sharedLinks : personalLinks;
+  const l = links.find(x=>x.id===id);
+  document.getElementById('confirmName').textContent = l?l.name:'este link';
+  document.getElementById('confirmBd').classList.add('open');
+}
+function closeConfirm(){document.getElementById('confirmBd').classList.remove('open');deleteId=null;deleteType=null;}
+async function confirmDelete() {
+  if(deleteId===null) return;
+  const base = deleteType === 'shared' ? API_SHARED : API_PERSONAL;
+  try {
+    const r = await fetch(`${base}/${deleteId}`,{method:'DELETE',headers:h()});
+    const j = await r.json(); if(!j.sucesso) throw new Error(j.mensagem);
+    closeConfirm(); showToast('Link removido.');
+    await loadAll();
+  } catch(e) { showToast('Erro: '+e.message); }
+}
+
+/* =====================================================
+   EVENTS
+===================================================== */
+document.getElementById('modalBd').addEventListener('click',e=>{if(e.target===e.currentTarget)closeModal();});
+document.getElementById('confirmBd').addEventListener('click',e=>{if(e.target===e.currentTarget)closeConfirm();});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape'){closeModal();closeConfirm();}
+  if(e.key==='Enter'&&document.getElementById('modalBd').classList.contains('open')&&document.activeElement.tagName.toLowerCase()==='input')saveLink();
+});
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
+
+/* =====================================================
+   INIT
+===================================================== */
+(async () => {
+  const user = await ACE_AUTH.check();
+  if (!user) return;
+  ACE_AUTH.renderNavbar('Links Úteis');
+  if (ACE_AUTH.canEditSharedLinks()) {
+    document.getElementById('btnAddShared').style.display = '';
+  }
+  await loadAll();
+})();
+</script>
+</body>
+</html>
