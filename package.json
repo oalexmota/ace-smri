@@ -9,7 +9,7 @@
   "keywords": [],
   "author": "alex",
   "license": "ISC",
-  "description": "Aplicação de Controle Empresarial",
+  "description": "Aplicação de Controle Exclusivo",
   "dependencies": {
     "cors": "^2.8.6",
     "express": "^5.2.1",
